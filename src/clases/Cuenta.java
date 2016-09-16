@@ -10,83 +10,71 @@ package clases;
  * @author sony
  */
 public class Cuenta {
+private long numero_cuenta;
+    private long numero_identificacion;
+    private double saldo_actual;
 
-    private int ncuenta;
-    private int identificacion;
-    private double sactual;
-    private double intanual;
-
-    public Cuenta(int ncuenta, int identificacion, double sactual, double intanual) {
-        this.ncuenta = ncuenta;
-        this.identificacion = identificacion;
-        this.sactual = sactual;
-        this.intanual = intanual;
-    }
-
-    public int getNcuenta() {
-        return ncuenta;
-    }
-
-    public void setNcuenta(int ncuenta) {
-        this.ncuenta = ncuenta;
-    }
-
-    public int getIdentificacion() {
-        return identificacion;
-    }
-
-    public void setIdentificacion(int identificacion) {
-        this.identificacion = identificacion;
-    }
-
-    public double getSactual() {
-        return sactual;
-    }
-
-    public void setSactual(double sactual) {
-        this.sactual = sactual;
-    }
-
-    public double getIntanual() {
-        return intanual;
-    }
-
-    public void setIntanual(double intanual) {
-        this.intanual = intanual;
-    }
-
-  public double ActualizarSaldo() {
-  double res,intdiario;
-  
-        intdiario = this.intanual / 365;
-        res =this.sactual + intdiario; 
-
-        return res;
-    }  
+    public Cuenta(long numero_cuenta, long numero_identificacion, double saldo_actual) {
+        this.numero_cuenta = numero_cuenta;
+        this.numero_identificacion = numero_identificacion;
+        this.saldo_actual = saldo_actual;
     
-public double Ingresar(double ingreso) {
- double nuevoSaldo ;
- if (ingreso <= 0) {
-  nuevoSaldo = 0;
-   }
- 
-   else {
-   this.sactual=  this.sactual + ingreso; 
-   nuevoSaldo = this.sactual;
-        }
- 
-        return nuevoSaldo;
-    }   
-  
- public double Retirar(double retiro) {
- double nuevoSaldo ;
-   
-      this.sactual = this.sactual - retiro;
-       nuevoSaldo = this.sactual;
+    }
+    public Cuenta(long numero_cuenta, long numero_identificacion){
+        this.numero_cuenta = numero_cuenta;
+        this.numero_identificacion = numero_identificacion;
+        this.saldo_actual = 0;
         
-        return nuevoSaldo;
-    }      
+    }
+    public long getNumero_cuenta() {
+        return numero_cuenta;
+    }
+
+    public long getNumero_identificacion() {
+        return numero_identificacion;
+    }
+
+    public double getSaldo_actual() {
+        return saldo_actual;
+    }
+
+    public void setNumero_cuenta(long numero_cuenta) {
+        this.numero_cuenta = numero_cuenta;
+    }
+
+    public void setNumero_identificacion(long numero_identificacion) {
+        this.numero_identificacion = numero_identificacion;
+    }
+
+    public void setSaldo_actual(double saldo_actual) {
+        this.saldo_actual = saldo_actual;
+    }
     
-    
-    
+    public void actualizar_saldo(double ian){
+        double auxi,auxi2;
+        auxi =this.getSaldo_actual()*(ian/365);
+        auxi2=this.getSaldo_actual()+ auxi;
+        this.setSaldo_actual(auxi2);
+    }
+        
+    public void ingresar(double ingreso){
+        double auxi;
+        auxi =this.getSaldo_actual() + ingreso;
+        this.setSaldo_actual(auxi);
+        
+    }
+    public void retira(double egreso){
+        double auxi;
+        auxi=this.getSaldo_actual()-egreso;
+       
+     this.setSaldo_actual(auxi);
+    }
+ 
+    public String mostrar() {
+        String aux;
+        aux = "Su Numero de cuenta es :" + this.getNumero_cuenta()+ "\n"
+            + "Su Numero de indentificación es : "+ this.getNumero_identificacion()+ "\n"
+            + "Su Saldo actual es : " + this.getSaldo_actual();
+        return aux;
+    }
 }
