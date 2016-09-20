@@ -5,8 +5,14 @@
  */
 package interfaz;
 
+import Excepciones.NoCeroException;
+import Excepciones.NoFondosException;
+import Excepciones.NoNegativoException;
 import clases.Cuenta;
 import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -220,11 +226,21 @@ public class Principal5 extends javax.swing.JFrame {
         } else {
             ingreso = Double.parseDouble((txtIngresar).getText());
 
-            c.ingresar(ingreso);
+            try {
+                c.ingresar(ingreso);
+            } catch (NoNegativoException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NoCeroException ex) {
+               JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+            }
             txtIngresar.setText("");
             txtRetirar.setText("");
             DecimalFormat df = new DecimalFormat("0.00");
-            txtResultado.append("Saldo actual: " + (df.format(c.getSaldo_actual())) + "\n");
+            try {
+                txtResultado.append("Saldo actual: " + (df.format(c.getSaldo_actual())) + "\n");
+            } catch (NoNegativoException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
             cmdGuardar.setEnabled(false);
             cmdIngresar.setEnabled(true);
@@ -261,7 +277,13 @@ public class Principal5 extends javax.swing.JFrame {
             id = Long.parseLong(txtNidentificacion.getText());
             saldoa = Double.parseDouble(txtSactual.getText());
 
-            c = new Cuenta(ncuenta, id, saldoa);
+            try {
+                c = new Cuenta(ncuenta, id, saldoa);
+            } catch (NoNegativoException ex) {
+             JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+            } catch (NoCeroException ex) {
+               JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+            }
             JOptionPane.showMessageDialog(this, "Datos guardados exitosamente");
 
             cmdGuardar.setEnabled(false);
@@ -278,11 +300,19 @@ public class Principal5 extends javax.swing.JFrame {
 
         ian = Double.parseDouble((txtIanual).getText());
 
-        c.actualizar_saldo(ian);
+        try {
+            c.actualizar_saldo(ian);
+        } catch (NoNegativoException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        }
         txtIngresar.setText("");
         txtRetirar.setText("");
         DecimalFormat df = new DecimalFormat("0.00");
-        txtResultado.append("Saldo actual: " + (df.format(c.getSaldo_actual())) + "\n");
+        try {
+            txtResultado.append("Saldo actual: " + (df.format(c.getSaldo_actual())) + "\n");
+        } catch (NoNegativoException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        }
 
         cmdGuardar.setEnabled(false);
         cmdIngresar.setEnabled(true);
@@ -293,7 +323,7 @@ public class Principal5 extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdActualizarSaldoActionPerformed
 
     private void cmdRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRetirarActionPerformed
-        double egreso, aux, aux2;
+        double egreso, aux, aux2 = 0;
 
         if (txtRetirar.getText().isEmpty()) {
             getToolkit().beep();
@@ -301,11 +331,19 @@ public class Principal5 extends javax.swing.JFrame {
             txtRetirar.requestFocusInWindow();
         } else {
             aux = Double.parseDouble((txtRetirar).getText());
-            aux2 = c.getSaldo_actual();
+            try {
+                aux2 = c.getSaldo_actual();
+            } catch (NoNegativoException ex) {
+               JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+            }
 
             if (aux > aux2) {
                 aux = Double.parseDouble((txtRetirar).getText());
-                aux2 = c.getSaldo_actual();
+                try {
+                    aux2 = c.getSaldo_actual();
+                } catch (NoNegativoException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                }
                 getToolkit().beep();
                 JOptionPane.showMessageDialog(this, "No puede retirar esta cantidad", "Error", JOptionPane.ERROR_MESSAGE);
                 txtRetirar.selectAll();
@@ -313,11 +351,23 @@ public class Principal5 extends javax.swing.JFrame {
             } else {
                 egreso = Double.parseDouble((txtRetirar).getText());
 
-                c.retira(egreso);
+                try {
+                    c.retira(egreso);
+                } catch (NoNegativoException ex) {
+                   JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                } catch (NoCeroException ex) {
+                   JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                } catch (NoFondosException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                }
                 txtIngresar.setText("");
                 txtRetirar.setText("");
                 DecimalFormat df = new DecimalFormat("0.00");
-                txtResultado.append("Saldo actual: " + (df.format(c.getSaldo_actual())) + "\n");
+                try {
+                    txtResultado.append("Saldo actual: " + (df.format(c.getSaldo_actual())) + "\n");
+                } catch (NoNegativoException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+                }
 
                 cmdGuardar.setEnabled(false);
                 cmdIngresar.setEnabled(true);
@@ -330,8 +380,16 @@ public class Principal5 extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdRetirarActionPerformed
 
     private void cmdMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMostrarActionPerformed
-        c.mostrar();
-        txtResultado.append(c.mostrar() + "\n");
+        try {
+            c.mostrar();
+        } catch (NoNegativoException ex) {
+           JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            txtResultado.append(c.mostrar() + "\n");
+        } catch (NoNegativoException ex) {
+           JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        }
 
         cmdGuardar.setEnabled(false);
         cmdIngresar.setEnabled(true);
@@ -376,11 +434,11 @@ public class Principal5 extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNidentificacionKeyTyped
 
     private void txtSactualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSactualKeyTyped
-        char c = evt.getKeyChar();
+        /* char c = evt.getKeyChar();
         if (!Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
-        }
+        }*/
     }//GEN-LAST:event_txtSactualKeyTyped
 
     private void txtIanualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIanualKeyTyped
